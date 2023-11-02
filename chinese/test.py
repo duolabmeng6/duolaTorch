@@ -6,7 +6,7 @@ from torchvision import models
 import cv2
 from pyefun import *
 
-from hanzi import resnet34
+from hanzi import mobilenet_v3 as net
 
 max_label_len = 4
 label_map = []
@@ -24,7 +24,7 @@ class Model_Captcha:
 
     def __init__(self, model_path):
         self.DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.model = resnet34.Net(num_classes=len(label_map) * max_label_len)
+        self.model = net.Net(num_classes=len(label_map) * max_label_len)
         self.model.load_state_dict(torch.load(model_path))
         self.model.to(self.DEVICE)
         self.model.eval()
@@ -50,7 +50,7 @@ def load_label_file(labelFile):
 
 if __name__ == '__main__':
     label_file = r'./label.txt'
-    model_path = "./models/save_1.model"
+    model_path = "./models/save_4.model"
     test_path = "./test"
 
     label_map = load_label_file(label_file)

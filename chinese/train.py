@@ -10,7 +10,8 @@ from tqdm import tqdm
 import torchvision.transforms as T
 from pyefun import *
 
-from hanzi import resnet34
+# from hanzi import resnet34
+from hanzi import mobilenet_v3 as net
 
 # 定义一些超参数
 image_shape = (60, 160)
@@ -147,9 +148,9 @@ if __name__ == '__main__':
         batch_size=4, shuffle=True,
         num_workers=0)
 
-    model = resnet34.Net(num_classes=len(label_map) * max_label_len, pretrained=True)
+    model = net.Net(num_classes=len(label_map) * max_label_len, pretrained=True)
     # 加载自己的模型
     # model.load_state_dict(torch.load(r'./models/save_1.model'))
 
-    train_model(model, train_loader, test_loader, num_epochs=100, lr=0.001, stop_accuracy=0.95, model_save_dir="models",
+    train_model(model, train_loader, test_loader, num_epochs=100, lr=0.001, stop_accuracy=1, model_save_dir="models",
                 model_save_interval=10)
